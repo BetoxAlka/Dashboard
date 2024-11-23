@@ -90,10 +90,19 @@ def emotion_intervals(session):
 
     return max_intervals_session
 
+# Funcion para obtener columnas numericas
+def numeric_cols(data):
+    cols = data.select_dtypes(include=['number']).columns
+
+    return cols
+
 # Funcion para la carga de datos de la Regresion Lineal Simple
-def load_data_regresion(data):
+def regresion(data):
+    #Tomar valores numericos
+    numeric = data.select_dtypes(include=['number'])
+
     # Coeficientes de correlacion entre las variables
-    corr_f = data.corr()
+    corr_f = numeric.corr()
 
     # Valor absoluto de todas las correlaciones entre las variables
     corr_abs = abs(corr_f)
@@ -103,6 +112,19 @@ def load_data_regresion(data):
 # ------------------------------------------------------------ DASHBOARD ------------------------------------------------------------
 
 # -------------------- Sidebar --------------------
+# Configuracion del Sidebar
+st.markdown(  
+    """  
+    <style>  
+        section[data-testid="stSidebar"] {  
+            width:230px !important; /* Set the width to your desired value */  
+        }  
+    </style>  
+    """,  
+    unsafe_allow_html=True,  
+)  
+
+# Creacion del Sidebar
 with st.sidebar:
     st.title(':gear: Configuración')
     paciente_seleccionado = st.sidebar.selectbox(":hospital: Seleccionar paciente", ["Paciente 7", "Paciente 8", "Paciente 11"])
@@ -164,35 +186,33 @@ with tab1:
 
         # Sesion 1
         session1.plot(x='time',y=selected_var, ax=axs[0,0])        
-
         # Añadir etiquetas y título
         axs[0,0].set_xlabel("Tiempo", fontsize=12)
         axs[0,0].set_ylabel(f"{selected_var}", fontsize=12)
-        axs[0,0].set_title(f'{selected_var} VS Tiempo - SESION 1', fontsize=14)
+        axs[0,0].set_title(f'{selected_var} VS Tiempo - SESION 1', fontsize=16)
 
         # Sesion 2
         session2.plot(x='time',y=selected_var, ax=axs[0,1])        
-
         # Añadir etiquetas y título
         axs[0,1].set_xlabel("Tiempo", fontsize=12)
         axs[0,1].set_ylabel(f"{selected_var}", fontsize=12)
-        axs[0,1].set_title(f'{selected_var} VS Tiempo - SESION 2', fontsize=14)
+        axs[0,1].set_title(f'{selected_var} VS Tiempo - SESION 2', fontsize=16)
 
         # Sesion 3
         session3.plot(x='time',y=selected_var, ax=axs[1,0])        
-
         # Añadir etiquetas y título
         axs[1,0].set_xlabel("Tiempo", fontsize=12)
         axs[1,0].set_ylabel(f"{selected_var}", fontsize=12)
-        axs[1,0].set_title(f'{selected_var} VS Tiempo - SESION 3', fontsize=14)
+        axs[1,0].set_title(f'{selected_var} VS Tiempo - SESION 3', fontsize=16)
 
         # Sesion 4
         session4.plot(x='time',y=selected_var, ax=axs[1,1])        
-
         # Añadir etiquetas y título
         axs[1,1].set_xlabel("Tiempo", fontsize=12)
         axs[1,1].set_ylabel(f"{selected_var}", fontsize=12)
-        axs[1,1].set_title(f'{selected_var} VS Tiempo - SESION 4', fontsize=14)
+        axs[1,1].set_title(f'{selected_var} VS Tiempo - SESION 4', fontsize=16)
+
+        plt.tight_layout()
 
         st.pyplot(fig)
 
@@ -229,6 +249,8 @@ with tab1:
                 ha='center', va='bottom'
             )
 
+        plt.tight_layout()
+
         st.pyplot(fig)
 
 # ---------- Pestania 2: Distancias Recorridas ----------
@@ -254,30 +276,32 @@ with tab2:
             # Sesion 1
             axs[0,0].hist(session1['Distancia'], alpha=0.5, edgecolor='black', bins=10)
             # Anaidir Etiquetas
-            axs[0,0].set_title('Histograma Distancia - Sesion 1', fontsize=14)
+            axs[0,0].set_title('Histograma Distancia - Sesion 1', fontsize=16)
             axs[0,0].set_xlabel('Distancia', fontsize=12)
             axs[0,0].set_ylabel('Frecuencia', fontsize=12)
 
             # Sesion 2
             axs[0,1].hist(session2['Distancia'], alpha=0.5, edgecolor='black', bins=10)
             # Anaidir Etiquetas
-            axs[0,1].set_title('Histograma Distancia - Sesion 2', fontsize=14)
+            axs[0,1].set_title('Histograma Distancia - Sesion 2', fontsize=16)
             axs[0,1].set_xlabel('Distancia', fontsize=12)
             axs[0,1].set_ylabel('Frecuencia', fontsize=12)
 
             # Sesion 3
             axs[1,0].hist(session3['Distancia'], alpha=0.5, edgecolor='black', bins=10)
             # Anaidir Etiquetas
-            axs[1,0].set_title('Histograma Distancia - Sesion 3', fontsize=14)
+            axs[1,0].set_title('Histograma Distancia - Sesion 3', fontsize=16)
             axs[1,0].set_xlabel('Distancia', fontsize=12)
             axs[1,0].set_ylabel('Frecuencia', fontsize=12)
 
             # Sesion 4
             axs[1,1].hist(session4['Distancia'], alpha=0.5, edgecolor='black', bins=10)
             # Anaidir Etiquetas
-            axs[1,1].set_title('Histograma Distancia - Sesion 4', fontsize=14)
+            axs[1,1].set_title('Histograma Distancia - Sesion 4', fontsize=16)
             axs[1,1].set_xlabel('Distancia', fontsize=12)
             axs[1,1].set_ylabel('Frecuencia', fontsize=12)
+
+            plt.tight_layout()
 
             st.pyplot(fig)
 
@@ -291,36 +315,38 @@ with tab2:
             # Sesion 1
             session1['Distancia'].plot.density(ax=axs[0,0])
             # Anaidir Etiquetas
-            axs[0,0].set_title('Gráfica Densidad - Sesion 1', fontsize=14)
+            axs[0,0].set_title('Gráfica Densidad - Sesion 1', fontsize=16)
             axs[0,0].set_xlabel('Intervalo', fontsize=12)
             axs[0,0].set_ylabel('Frecuencia', fontsize=12)
 
             # Sesion 2
             session2['Distancia'].plot.density(ax=axs[0,1])
             # Anaidir Etiquetas
-            axs[0,1].set_title('Gráfica Densidad - Sesion 2', fontsize=14)
+            axs[0,1].set_title('Gráfica Densidad - Sesion 2', fontsize=16)
             axs[0,1].set_xlabel('Intervalo', fontsize=12)
             axs[0,1].set_ylabel('Frecuencia', fontsize=12)
 
             # Sesion 3
             session3['Distancia'].plot.density(ax=axs[1,0])
             # Anaidir Etiquetas
-            axs[1,0].set_title('Gráfica Densidad - Sesion 3', fontsize=14)
+            axs[1,0].set_title('Gráfica Densidad - Sesion 3', fontsize=16)
             axs[1,0].set_xlabel('Intervalo', fontsize=12)
             axs[1,0].set_ylabel('Frecuencia', fontsize=12)
 
             # Sesion 4
             session4['Distancia'].plot.density(ax=axs[1,1])
             # Anaidir Etiquetas
-            axs[1,1].set_title('Gráfica Densidad - Sesion 4', fontsize=14)
+            axs[1,1].set_title('Gráfica Densidad - Sesion 4', fontsize=16)
             axs[1,1].set_xlabel('Intervalo', fontsize=12)
             axs[1,1].set_ylabel('Frecuencia', fontsize=12)
+
+            plt.tight_layout()
 
             st.pyplot(fig)
 
     # ---------- Columna B ----------
     with tab2_colB:
-        st.header(f'Distancias Maximas -  {paciente_seleccionado}')
+        st.header(f'Distancias Maximas - {paciente_seleccionado}')
 
         st.subheader('Distancias Maximas Alcanzadas por Sesión')
 
@@ -328,7 +354,7 @@ with tab2:
         dists_max = pd.DataFrame([session1['Distancia'].sum(),session2['Distancia'].sum(),session3['Distancia'].sum(),session4['Distancia'].sum()],columns=['DistMax'],index=['session1','session2','session3','session4'])
 
         # Crear la figura y los ejes
-        fig, ax = plt.subplots(figsize=(10, 3))
+        fig, ax = plt.subplots(figsize=(20, 10))
 
         # Crear la gráfica de barras
         plt.style.use('classic')  
@@ -342,7 +368,7 @@ with tab2:
         # Añadir etiquetas y título
         plt.xlabel("Sesiones", fontsize=12)
         plt.ylabel("Distancia Maxima", fontsize=12)
-        plt.title(f"Distancias Maximas de cada Sesion - {paciente_seleccionado}", fontsize=14)
+        plt.title(f"Distancias Maximas de cada Sesion - {paciente_seleccionado}", fontsize=16)
 
         # Mostrar el valor encima de cada barra
         for bar in bars:
@@ -352,6 +378,8 @@ with tab2:
                 f'{bar.get_height():.1f}',
                 ha='center', va='bottom'
             )
+
+        plt.tight_layout()
 
         st.pyplot(fig)
 
@@ -387,63 +415,65 @@ with tab3:
 
         # Sesion 1
         bars1 = axs[0,0].bar(sums1_sorted['Column'], sums1_sorted['Zero_Crossings'], color='skyblue', label='Sumatory')
-        axs[0,0].set_xlabel('Column')
-        axs[0,0].set_ylabel('Zero Crossings', color='skyblue')
+        axs[0,0].set_xlabel('Column',fontsize=10)
+        axs[0,0].set_ylabel('Zero Crossings', color='skyblue', fontsize=10)
         axs[0,0].tick_params(axis='y', labelcolor='skyblue')
         # Rotar las etiquetas del eje X
-        axs[0,0].set_xticklabels(sums1_sorted['Column'], rotation=45, ha='right')
+        axs[0,0].set_xticklabels(sums1_sorted['Column'], rotation=45, ha='right',fontsize=8)
         # Crear un segundo eje Y para la línea de porcentaje acumulado
         axs[0,0].plot(sums1_sorted['Column'], sums1_sorted['Cumulative_Percentage'], color='orange', marker='o', linestyle='-', linewidth=2, label='Cumulative Percentage')
-        axs[0,0].set_ylabel('Cumulative Percentage (%)', color='orange')
+        axs[0,0].set_ylabel('Cumulative Percentage (%)', color='orange',fontsize=10)
         axs[0,0].tick_params(axis='y', labelcolor='orange')
         # Agregar línea de referencia en 80%
         axs[0,0].axhline(80, color='grey', linestyle='--', linewidth=0.8)
-        axs[0,0].set_title('Cruces en Cero - Sesión 1')
+        axs[0,0].set_title('Cruces en Cero - Sesión 1', fontsize=14)
 
         # Sesion 2
         bars2 = axs[0,1].bar(sums2_sorted['Column'], sums2_sorted['Zero_Crossings'], color='skyblue', label='Sumatory')
-        axs[0,1].set_xlabel('Column')
-        axs[0,1].set_ylabel('Zero Crossings', color='skyblue')
+        axs[0,1].set_xlabel('Column',fontsize=10)
+        axs[0,1].set_ylabel('Zero Crossings', color='skyblue',fontsize=10)
         axs[0,1].tick_params(axis='y', labelcolor='skyblue')
         # Rotar las etiquetas del eje X
-        axs[0,1].set_xticklabels(sums2_sorted['Column'], rotation=45, ha='right')
+        axs[0,1].set_xticklabels(sums2_sorted['Column'], rotation=45, ha='right',fontsize=8)
         # Crear un segundo eje Y para la línea de porcentaje acumulado
         axs[0,1].plot(sums2_sorted['Column'], sums2_sorted['Cumulative_Percentage'], color='orange', marker='o', linestyle='-', linewidth=2, label='Cumulative Percentage')
-        axs[0,1].set_ylabel('Cumulative Percentage (%)', color='orange')
+        axs[0,1].set_ylabel('Cumulative Percentage (%)', color='orange',fontsize=10)
         axs[0,1].tick_params(axis='y', labelcolor='orange')
         # Agregar línea de referencia en 80%
         axs[0,1].axhline(80, color='grey', linestyle='--', linewidth=0.8)
-        axs[0,1].set_title('Cruces en Cero - Sesión 2')
+        axs[0,1].set_title('Cruces en Cero - Sesión 2',fontsize=14)
 
         # Sesion 3
         bars3 = axs[1,0].bar(sums3_sorted['Column'], sums3_sorted['Zero_Crossings'], color='skyblue', label='Sumatory')
-        axs[1,0].set_xlabel('Column')
-        axs[1,0].set_ylabel('Zero Crossings', color='skyblue')
+        axs[1,0].set_xlabel('Column',fontsize=10)
+        axs[1,0].set_ylabel('Zero Crossings', color='skyblue',fontsize=10)
         axs[1,0].tick_params(axis='y', labelcolor='skyblue')
         # Rotar las etiquetas del eje X
-        axs[1,0].set_xticklabels(sums3_sorted['Column'], rotation=45, ha='right')
+        axs[1,0].set_xticklabels(sums3_sorted['Column'], rotation=45, ha='right',fontsize=8)
         # Crear un segundo eje Y para la línea de porcentaje acumulado
         axs[1,0].plot(sums3_sorted['Column'], sums3_sorted['Cumulative_Percentage'], color='orange', marker='o', linestyle='-', linewidth=2, label='Cumulative Percentage')
-        axs[1,0].set_ylabel('Cumulative Percentage (%)', color='orange')
+        axs[1,0].set_ylabel('Cumulative Percentage (%)', color='orange',fontsize=10)
         axs[1,0].tick_params(axis='y', labelcolor='orange')
         # Agregar línea de referencia en 80%
         axs[1,0].axhline(80, color='grey', linestyle='--', linewidth=0.8)
-        axs[1,0].set_title('Cruces en Cero - Sesion 3')
+        axs[1,0].set_title('Cruces en Cero - Sesion 3',fontsize=14)
 
         # Sesion 4
         bars4 = axs[1,1].bar(sums4_sorted['Column'], sums4_sorted['Zero_Crossings'], color='skyblue', label='Sumatory')
-        axs[1,1].set_xlabel('Column')
-        axs[1,1].set_ylabel('Zero Crossings', color='skyblue')
+        axs[1,1].set_xlabel('Column',fontsize=10)
+        axs[1,1].set_ylabel('Zero Crossings', color='skyblue',fontsize=10)
         axs[1,1].tick_params(axis='y', labelcolor='skyblue')
         # Rotar las etiquetas del eje X
-        axs[1,1].set_xticklabels(sums4_sorted['Column'], rotation=45, ha='right')
+        axs[1,1].set_xticklabels(sums4_sorted['Column'], rotation=45, ha='right',fontsize=8)
         # Crear un segundo eje Y para la línea de porcentaje acumulado
         axs[1,1].plot(sums4_sorted['Column'], sums4_sorted['Cumulative_Percentage'], color='orange', marker='o', linestyle='-', linewidth=2, label='Cumulative Percentage')
-        axs[1,1].set_ylabel('Cumulative Percentage (%)', color='orange')
+        axs[1,1].set_ylabel('Cumulative Percentage (%)', color='orange',fontsize=10)
         axs[1,1].tick_params(axis='y', labelcolor='orange')
         # Agregar línea de referencia en 80%
         axs[1,1].axhline(80, color='grey', linestyle='--', linewidth=0.8)
-        axs[1,1].set_title('Cruces en Cero - Sesion 4')
+        axs[1,1].set_title('Cruces en Cero - Sesion 4',fontsize=14)
+
+        plt.tight_layout()
 
         st.pyplot(fig)
 
@@ -474,63 +504,65 @@ with tab3:
 
         # Sesion 1
         bars1 = axs[0,0].bar(sums1_sorted.index, sums1_sorted['Sumatory'], color='skyblue', label='Sumatory')
-        axs[0,0].set_xlabel('Column')
-        axs[0,0].set_ylabel('Sumatory', color='skyblue')
+        axs[0,0].set_xlabel('Column',fontsize=10)
+        axs[0,0].set_ylabel('Sumatory', color='skyblue',fontsize=10)
         axs[0,0].tick_params(axis='y', labelcolor='skyblue')
         # Rotar las etiquetas del eje X
-        axs[0,0].set_xticklabels(sums1_sorted.index, rotation=45, ha='right')
+        axs[0,0].set_xticklabels(sums1_sorted.index, rotation=45, ha='right',fontsize=8)
         # Crear un segundo eje Y para la línea de porcentaje acumulado
         axs[0,0].plot(sums1_sorted.index, sums1_sorted['Cumulative_Percentage'], color='orange', marker='o', linestyle='-', linewidth=2, label='Cumulative Percentage')
-        axs[0,0].set_ylabel('Cumulative Percentage (%)', color='orange')
+        axs[0,0].set_ylabel('Cumulative Percentage (%)', color='orange',fontsize=10)
         axs[0,0].tick_params(axis='y', labelcolor='orange')
         # Agregar línea de referencia en 80%
         axs[0,0].axhline(80, color='grey', linestyle='--', linewidth=0.8)
-        axs[0,0].set_title('Sumatoria - Sesión 1')
+        axs[0,0].set_title('Sumatoria - Sesión 1',fontsize=14)
 
         # Sesion 2
         bars2 = axs[0,1].bar(sums2_sorted.index, sums2_sorted['Sumatory'], color='skyblue', label='Sumatory')
-        axs[0,1].set_xlabel('Column')
-        axs[0,1].set_ylabel('Sumatory', color='skyblue')
+        axs[0,1].set_xlabel('Column',fontsize=10)
+        axs[0,1].set_ylabel('Sumatory', color='skyblue',fontsize=10)
         axs[0,1].tick_params(axis='y', labelcolor='skyblue')
         # Rotar las etiquetas del eje X
-        axs[0,1].set_xticklabels(sums2_sorted.index, rotation=45, ha='right')
+        axs[0,1].set_xticklabels(sums2_sorted.index, rotation=45, ha='right',fontsize=8)
         # Crear un segundo eje Y para la línea de porcentaje acumulado
         axs[0,1].plot(sums2_sorted.index, sums2_sorted['Cumulative_Percentage'], color='orange', marker='o', linestyle='-', linewidth=2, label='Cumulative Percentage')
-        axs[0,1].set_ylabel('Cumulative Percentage (%)', color='orange')
+        axs[0,1].set_ylabel('Cumulative Percentage (%)', color='orange',fontsize=10)
         axs[0,1].tick_params(axis='y', labelcolor='orange')
         # Agregar línea de referencia en 80%
         axs[0,1].axhline(80, color='grey', linestyle='--', linewidth=0.8)
-        axs[0,1].set_title('Sumatoria - Sesión 2')
+        axs[0,1].set_title('Sumatoria - Sesión 2',fontsize=14)
 
         # Sesion 3
         bars3 = axs[1,0].bar(sums3_sorted.index, sums3_sorted['Sumatory'], color='skyblue', label='Sumatory')
-        axs[1,0].set_xlabel('Column')
-        axs[1,0].set_ylabel('Sumatory', color='skyblue')
+        axs[1,0].set_xlabel('Column',fontsize=10)
+        axs[1,0].set_ylabel('Sumatory', color='skyblue',fontsize=10)
         axs[1,0].tick_params(axis='y', labelcolor='skyblue')
         # Rotar las etiquetas del eje X
-        axs[1,0].set_xticklabels(sums3_sorted.index, rotation=45, ha='right')
+        axs[1,0].set_xticklabels(sums3_sorted.index, rotation=45, ha='right',fontsize=8)
         # Crear un segundo eje Y para la línea de porcentaje acumulado
         axs[1,0].plot(sums3_sorted.index, sums3_sorted['Cumulative_Percentage'], color='orange', marker='o', linestyle='-', linewidth=2, label='Cumulative Percentage')
-        axs[1,0].set_ylabel('Cumulative Percentage (%)', color='orange')
+        axs[1,0].set_ylabel('Cumulative Percentage (%)', color='orange',fontsize=10)
         axs[1,0].tick_params(axis='y', labelcolor='orange')
         # Agregar línea de referencia en 80%
         axs[1,0].axhline(80, color='grey', linestyle='--', linewidth=0.8)
-        axs[1,0].set_title('Sumatoria - Sesion 3')
+        axs[1,0].set_title('Sumatoria - Sesion 3',fontsize=14)
 
         # Sesion 4
         bars4 = axs[1,1].bar(sums4_sorted.index, sums4_sorted['Sumatory'], color='skyblue', label='Sumatory')
-        axs[1,1].set_xlabel('Column')
-        axs[1,1].set_ylabel('Sumatory', color='skyblue')
+        axs[1,1].set_xlabel('Column',fontsize=10)
+        axs[1,1].set_ylabel('Sumatory', color='skyblue',fontsize=10)
         axs[1,1].tick_params(axis='y', labelcolor='skyblue')
         # Rotar las etiquetas del eje X
-        axs[1,1].set_xticklabels(sums4_sorted.index, rotation=45, ha='right')
+        axs[1,1].set_xticklabels(sums4_sorted.index, rotation=45, ha='right',fontsize=8)
         # Crear un segundo eje Y para la línea de porcentaje acumulado
         axs[1,1].plot(sums4_sorted.index, sums4_sorted['Cumulative_Percentage'], color='orange', marker='o', linestyle='-', linewidth=2, label='Cumulative Percentage')
-        axs[1,1].set_ylabel('Cumulative Percentage (%)', color='orange')
+        axs[1,1].set_ylabel('Cumulative Percentage (%)', color='orange',fontsize=10)
         axs[1,1].tick_params(axis='y', labelcolor='orange')
         # Agregar línea de referencia en 80%
         axs[1,1].axhline(80, color='grey', linestyle='--', linewidth=0.8)
-        axs[1,1].set_title('Sumatoria - Sesion 4')
+        axs[1,1].set_title('Sumatoria - Sesion 4',fontsize=14)
+
+        plt.tight_layout()
 
         st.pyplot(fig)
 
@@ -579,30 +611,30 @@ with tab4:
         # Etiquetas y formato
         axs[0].set_yticks(range(len(sentiment_columns)))
         axs[0].set_yticklabels(sentiment_columns)
-        axs[0].set_xlabel("Tiempo")
-        axs[0].set_ylabel("Emociones")
-        axs[0].set_title("Presencia de sentimientos en intervalos de tiempo - Sesion 1")
+        axs[0].set_xlabel("Tiempo",fontsize=12)
+        axs[0].set_ylabel("Emociones",fontsize=12)
+        axs[0].set_title("Presencia de sentimientos en intervalos de tiempo - Sesion 1",fontsize=16)
 
         # Etiquetas y formato
         axs[1].set_yticks(range(len(sentiment_columns)))
         axs[1].set_yticklabels(sentiment_columns)
-        axs[1].set_xlabel("Tiempo")
-        axs[1].set_ylabel("Emociones")
-        axs[1].set_title("Presencia de sentimientos en intervalos de tiempo - Sesion 2")
+        axs[1].set_xlabel("Tiempo",fontsize=12)
+        axs[1].set_ylabel("Emociones",fontsize=12)
+        axs[1].set_title("Presencia de sentimientos en intervalos de tiempo - Sesion 2",fontsize=16)
 
         # Etiquetas y formato
         axs[2].set_yticks(range(len(sentiment_columns)))
         axs[2].set_yticklabels(sentiment_columns)
-        axs[2].set_xlabel("Tiempo")
-        axs[2].set_ylabel("Emociones")
-        axs[2].set_title("Presencia de sentimientos en intervalos de tiempo - Sesion 3")
+        axs[2].set_xlabel("Tiempo",fontsize=12)
+        axs[2].set_ylabel("Emociones",fontsize=12)
+        axs[2].set_title("Presencia de sentimientos en intervalos de tiempo - Sesion 3",fontsize=16)
 
         # Etiquetas y formato
         axs[3].set_yticks(range(len(sentiment_columns)))
         axs[3].set_yticklabels(sentiment_columns)
-        axs[3].set_xlabel("Tiempo")
-        axs[3].set_ylabel("Emociones")
-        axs[3].set_title("Presencia de sentimientos en intervalos de tiempo - Sesion 4")
+        axs[3].set_xlabel("Tiempo",fontsize=12)
+        axs[3].set_ylabel("Emociones",fontsize=12)
+        axs[3].set_title("Presencia de sentimientos en intervalos de tiempo - Sesion 4",fontsize=16)
 
         plt.tight_layout()
 
@@ -652,10 +684,10 @@ with tab4:
         axs[0,0].fill(angles, emotion1_values, color='skyblue', alpha=0.4)
         # Añadir etiquetas para cada categoría
         axs[0,0].set_xticks(angles[:-1])
-        axs[0,0].set_xticklabels(max_time_emotion.index)
+        axs[0,0].set_xticklabels(max_time_emotion.index,fontsize=8)
         # Ajustar los límites del eje radial y el título
         axs[0,0].set_ylim(0, max(emotion1_values))
-        axs[0,0].set_title('                                                        CANSANCIO')
+        axs[0,0].set_title('                                                        CANSANCIO', fontsize=16)
 
         # Dibujar la línea del gráfico
         axs[0,1].plot(angles, emotion2_values, color='skyblue', linewidth=2, linestyle='solid')
@@ -663,10 +695,10 @@ with tab4:
         axs[0,1].fill(angles, emotion2_values, color='skyblue', alpha=0.4)
         # Añadir etiquetas para cada categoría
         axs[0,1].set_xticks(angles[:-1])
-        axs[0,1].set_xticklabels(max_time_emotion.index)
+        axs[0,1].set_xticklabels(max_time_emotion.index,fontsize=8)
         # Ajustar los límites del eje radial y el título
         axs[0,1].set_ylim(0, max(emotion2_values))
-        axs[0,1].set_title('                                                        ANSIEDAD')
+        axs[0,1].set_title('                                                        ANSIEDAD', fontsize=16)
 
         # Dibujar la línea del gráfico
         axs[1,0].plot(angles, emotion3_values, color='skyblue', linewidth=2, linestyle='solid')
@@ -674,10 +706,10 @@ with tab4:
         axs[1,0].fill(angles, emotion3_values, color='skyblue', alpha=0.4)
         # Añadir etiquetas para cada categoría
         axs[1,0].set_xticks(angles[:-1])
-        axs[1,0].set_xticklabels(max_time_emotion.index)
+        axs[1,0].set_xticklabels(max_time_emotion.index,fontsize=8)
         # Ajustar los límites del eje radial y el título
         axs[1,0].set_ylim(0, max(emotion3_values))
-        axs[1,0].set_title('                                                        DOLOR')
+        axs[1,0].set_title('                                                        DOLOR', fontsize=16)
 
         # Dibujar la línea del gráfico
         axs[1,1].plot(angles, emotion4_values, color='skyblue', linewidth=2, linestyle='solid')
@@ -685,10 +717,10 @@ with tab4:
         axs[1,1].fill(angles, emotion4_values, color='skyblue', alpha=0.4)
         # Añadir etiquetas para cada categoría
         axs[1,1].set_xticks(angles[:-1])
-        axs[1,1].set_xticklabels(max_time_emotion.index)
+        axs[1,1].set_xticklabels(max_time_emotion.index,fontsize=8)
         # Ajustar los límites del eje radial y el título
         axs[1,1].set_ylim(0, max(emotion4_values))
-        axs[1,1].set_title('                                                        MOTIVACION')
+        axs[1,1].set_title('                                                        MOTIVACION', fontsize=16)
 
         plt.tight_layout()
 
@@ -700,6 +732,173 @@ with tab5:
     tab5_colA, tab5_colB = st.columns(2)
 
     # ---------- Columna A ----------
-    
+    with tab5_colA:
+        st.header('Regresiones')
+
+        numeric_columns = numeric_cols(session1)
+
+        # Columnas para seleccionar variables
+        var_option1, var_option2 = st.columns(2)
+
+        with var_option1:
+            y_var = st.selectbox('Seleccione una Variable Dependiente (Y)', options=numeric_columns)
+
+        with var_option2:
+            x_var = st.selectbox('Seleccione una Variable Independiente (X)', options=numeric_columns)
+
+        # Sesion 1
+        # Declaramos las variables dependientes e independientes para la regresion lineal
+        vars_indep_session1 = session1[[x_var]]
+        var_dep_session1 = session1[y_var]
+        # Generamos el Modelo Lineal
+        model_session1 = LinearRegression()
+        # Ajustamos el modelo con las variables antes declaradas
+        model_session1.fit(X=vars_indep_session1, y=var_dep_session1)
+        # Predecimos los valores a partir de la variable
+        y_pred_session1 = model_session1.predict(X=session1[[x_var]])
+        # Insertamos la columna de predicciones en el DataFrame
+        session1_copy = session1.copy()
+        session1_copy.insert(0,'predicciones',y_pred_session1)
+        # Corrobaremos cual es el coeficiente de Determinacion de nuestro modelo (R_Cuadrada)
+        coef_deter_session1 = model_session1.score(X=vars_indep_session1, y=var_dep_session1)
+        # Corroboramos cual es el coeficiente de correlacion de nuestro modelo (R)
+        coef_correl_session1 = np.sqrt(coef_deter_session1)
+
+        # Sesion 2
+        # Declaramos las variables dependientes e independientes para la regresion lineal
+        vars_indep_session2 = session2[[x_var]]
+        var_dep_session2 = session2[y_var]
+        # Generamos el Modelo Lineal
+        model_session2 = LinearRegression()
+        # Ajustamos el modelo con las variables antes declaradas
+        model_session2.fit(X=vars_indep_session2, y=var_dep_session2)
+        # Predecimos los valores a partir de la variable
+        y_pred_session2 = model_session2.predict(X=session2[[x_var]])
+        # Insertamos la columna de predicciones en el DataFrame
+        session2_copy = session2.copy()
+        session2_copy.insert(0,'predicciones',y_pred_session2)
+        # Corrobaremos cual es el coeficiente de Determinacion de nuestro modelo (R_Cuadrada)
+        coef_deter_session2 = model_session2.score(X=vars_indep_session2, y=var_dep_session2)
+        # Corroboramos cual es el coeficiente de correlacion de nuestro modelo (R)
+        coef_correl_session2 = np.sqrt(coef_deter_session2)
+
+        # Sesion 3
+        # Declaramos las variables dependientes e independientes para la regresion lineal
+        vars_indep_session3 = session3[[x_var]]
+        var_dep_session3 = session3[y_var]
+        # Generamos el Modelo Lineal
+        model_session3 = LinearRegression()
+        # Ajustamos el modelo con las variables antes declaradas
+        model_session3.fit(X=vars_indep_session3, y=var_dep_session3)
+        # Predecimos los valores a partir de la variable
+        y_pred_session3 = model_session3.predict(X=session3[[x_var]])
+        # Insertamos la columna de predicciones en el DataFrame
+        session3_copy = session3.copy()
+        session3_copy.insert(0,'predicciones',y_pred_session3)
+        # Corrobaremos cual es el coeficiente de Determinacion de nuestro modelo (R_Cuadrada)
+        coef_deter_session3 = model_session3.score(X=vars_indep_session3, y=var_dep_session3)
+        # Corroboramos cual es el coeficiente de correlacion de nuestro modelo (R)
+        coef_correl_session3 = np.sqrt(coef_deter_session3)
+
+        # Sesion 4
+        # Declaramos las variables dependientes e independientes para la regresion lineal
+        vars_indep_session4 = session4[[x_var]]
+        var_dep_session4 = session4[y_var]
+        # Generamos el Modelo Lineal
+        model_session4 = LinearRegression()
+        # Ajustamos el modelo con las variables antes declaradas
+        model_session4.fit(X=vars_indep_session4, y=var_dep_session4)
+        # Predecimos los valores a partir de la variable
+        y_pred_session4 = model_session4.predict(X=session4[[x_var]])
+        # Insertamos la columna de predicciones en el DataFrame
+        session4_copy = session4.copy()
+        session4_copy.insert(0,'predicciones',y_pred_session4)
+        # Corrobaremos cual es el coeficiente de Determinacion de nuestro modelo (R_Cuadrada)
+        coef_deter_session4 = model_session4.score(X=vars_indep_session4, y=var_dep_session4)
+        # Corroboramos cual es el coeficiente de correlacion de nuestro modelo (R)
+        coef_correl_session4 = np.sqrt(coef_deter_session4)
+
+        # Mostrar Coeficientes 
+        coef1, coef2, coef3, coef4 = st.columns(4)
+
+        with coef1:
+            st.text('Coef Sesion 1:')
+            st.text(coef_correl_session1)
+
+        with coef2:
+            st.text('Coef Sesion 2:')
+            st.text(coef_correl_session2)
+
+        with coef3:
+            st.text('Coef Sesion 3:')
+            st.text(coef_correl_session3)
+
+        with coef4:
+            st.text('Coef Sesion 4:')
+            st.text(coef_correl_session4)
+
+        # Inicializar el gráfico en coordenadas polares
+        fig, axs = plt.subplots(nrows=2, ncols=2,figsize=(20, 10))
+
+        # Sesion 1
+        axs[0,0].scatter(session1_copy[x_var], session1_copy[y_var])
+        axs[0,0].scatter(session1_copy[x_var], session1_copy['predicciones'])
+        axs[0,0].set_title(f'{y_var} vs {x_var} - Sesión 1',fontsize=16)
+        axs[0,0].set_xlabel(f'{x_var}',fontsize=12)
+        axs[0,0].set_ylabel(f'{y_var}',fontsize=12)
+
+        # Sesion 2
+        axs[0,1].scatter(session2_copy[x_var], session2_copy[y_var])
+        axs[0,1].scatter(session2_copy[x_var], session2_copy['predicciones'])
+        axs[0,1].set_title(f'{y_var} vs {x_var} - Sesión 2',fontsize=16)
+        axs[0,1].set_xlabel(f'{x_var}',fontsize=12)
+        axs[0,1].set_ylabel(f'{y_var}',fontsize=12)
+
+        # Sesion 3
+        axs[1,0].scatter(session3_copy[x_var], session3_copy[y_var])
+        axs[1,0].scatter(session3_copy[x_var], session3_copy['predicciones'])
+        axs[1,0].set_title(f'{y_var} vs {x_var} -  Sesión 3',fontsize=16)
+        axs[1,0].set_xlabel(f'{x_var}',fontsize=12)
+        axs[1,0].set_ylabel(f'{y_var}',fontsize=12)
+
+        # Sesion 4
+        axs[1,1].scatter(session4_copy[x_var], session4_copy[y_var])
+        axs[1,1].scatter(session4_copy[x_var], session4_copy['predicciones'])
+        axs[1,1].set_title(f'{y_var} vs {x_var} - Sesión 4',fontsize=16)
+        axs[1,1].set_xlabel(f'{x_var}',fontsize=12)
+        axs[1,1].set_ylabel(f'{y_var}',fontsize=12)
+
+        st.pyplot(fig)
 
     # ---------- Columna B ----------
+    with tab5_colB:
+        st.header('Correlaciones')
+
+        # Opciones para Mostrar
+        option1, option2 = st.columns(2)
+        with option1:
+            selected_session = st.radio('Seleccione la Sesion',options=['Sesión 1','Sesión 2','Sesión 3','Sesión 4'])
+
+        with option2:
+            selected_type = st.radio('Seleccione como visualizar las Correlaciones',options=['DataFrame','HeatMap'])
+
+        # Creacion de Correlaciones
+        if selected_session == 'Sesión 1':
+            corr, corr_abs = regresion(session1)
+        elif selected_session == 'Sesión 2':
+            corr, corr_abs = regresion(session2)
+        elif selected_session == 'Sesión 3':
+            corr, corr_abs = regresion(session3)
+        elif selected_session == 'Sesión 4':
+            corr, corr_abs = regresion(session4)
+
+        if selected_type == 'DataFrame':
+            st.subheader(f'Correlaciones Lineales - {selected_session}')
+            #Mostramos el dataset
+            st.write(corr)
+
+        elif selected_type == 'HeatMap':
+            st.subheader(f'Heat Map - {selected_session}')
+            #Mostramos el Heat Map
+            heatmap = px.imshow(corr_abs)
+            st.plotly_chart(heatmap)  
