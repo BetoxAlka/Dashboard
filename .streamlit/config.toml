@@ -1,0 +1,10 @@
+[client]
+showErrorDetails = false
+
+
+[theme]
+base="dark"
+primaryColor="#bfa181"
+backgroundColor="#0a1828"
+secondaryBackgroundColor="#96c2db"
+font="monospace"
