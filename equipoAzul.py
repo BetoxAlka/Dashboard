@@ -606,22 +606,22 @@ with st.sidebar:
 # ---------- Metodo para obtener los datos respecto al paciente ----------
 # Modificar los nombres del archivo segun los que se encuentren en la carpeta 'data'
 if paciente_seleccionado == 'Paciente 7':
-    session1 = load_data('data/P07/P07_2018_12dic03_v07_atribMOVPREFAE_etiq.csv') 
-    session2 = load_data('data/P07/P07_2018_12dic10_v07_atribMOVPREFAE_etiq.csv')
-    session3 = load_data('data/P07/P07_2018_12dic17_v07_atribMOVPREFAE_etiq.csv')
-    session4 = load_data('data/P07/P07_2019_01ene02_v07_atribMOVPREFAE_etiq.csv')
+    session1 = load_data('data/P07/12dic03/P07_2018_12dic03_v07_atribMOVPREFAE_etiq.csv') 
+    session2 = load_data('data/P07/12dic10/P07_2018_12dic10_v07_atribMOVPREFAE_etiq.csv')
+    session3 = load_data('data/P07/12dic17/P07_2018_12dic17_v07_atribMOVPREFAE_etiq.csv')
+    session4 = load_data('data/P07/01ene02/P07_2019_01ene02_v07_atribMOVPREFAE_etiq.csv')
 
 elif paciente_seleccionado == 'Paciente 8':
-    session1 = load_data('data/P08/P08_2019_01ene02_v07_atribMOVPREFAE_etiq.csv')
-    session2 = load_data('data/P08/P08_2019_01ene09_v07_atribMOVPREFAE_etiq.csv')
-    session3 = load_data('data/P08/P08_2019_01ene18_v07_atribMOVPREFAE_etiq.csv')
-    session4 = load_data('data/P08/P08_2019_01ene21_v07_atribMOVPREFAE_etiq.csv')
+    session1 = load_data('data/P08/01ene02/P08_2019_01ene02_v07_atribMOVPREFAE_etiq.csv')
+    session2 = load_data('data/P08/01ene09/P08_2019_01ene09_v07_atribMOVPREFAE_etiq.csv')
+    session3 = load_data('data/P08/01ene18/P08_2019_01ene18_v07_atribMOVPREFAE_etiq.csv')
+    session4 = load_data('data/P08/01ene21/P08_2019_01ene21_v07_atribMOVPREFAE_etiq.csv')
 
 elif paciente_seleccionado == 'Paciente 11':
-    session1 = load_data('data/P11/P11_2019_04abr11_v07_atribMOVPREFAE_etiq.csv')
-    session2 = load_data('data/P11/P11_2019_04abr17_v07_atribMOVPREFAE_etiq.csv')
-    session3 = load_data('data/P11/P11_2019_04abr29_v07_atribMOVPREFAE_etiq.csv')
-    session4 = load_data('data/P11/P11_2019_05may13_v07_atribMOVPREFAE_etiq.csv')
+    session1 = load_data('data/P11/04abr11/P11_2019_04abr11_v07_atribMOVPREFAE_etiq.csv')
+    session2 = load_data('data/P11/04abr17/P11_2019_04abr17_v07_atribMOVPREFAE_etiq.csv')
+    session3 = load_data('data/P11/04abr29/P11_2019_04abr29_v07_atribMOVPREFAE_etiq.csv')
+    session4 = load_data('data/P11/05may13/P11_2019_05may13_v07_atribMOVPREFAE_etiq.csv')
 
 # -------------------- Header --------------------
 # Columnas para el Header
