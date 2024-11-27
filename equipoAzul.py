@@ -791,14 +791,14 @@ with tab2:
         # Condicional de Graficas
         # ---------- Histograma ----------
         if graph_selected == ':bookmark_tabs: Histograma':
-            st.subheader(f'{graph_selected} de Distancias por Sesión')
+            st.subheader(f'Histograma de Distancias por Sesión')
 
             # Graficar Histograma
             histogram(session1,session2,session3,session4)
 
         # ---------- Densidad ----------
         elif graph_selected == ':scooter: Densidad':
-            st.subheader(f'{graph_selected} de Distancias por Sesión')
+            st.subheader(f'Densidad de Distancias por Sesión')
             
             # Graficar Grafica de Densidad
             density(session1,session2,session3,session4)
