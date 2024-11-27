@@ -126,28 +126,28 @@ def line_graph(session1,session2,session3,session4,selected_var):
             plt.xticks(rotation=45)
 
             # Sesion 1
-            session1.plot(x='time',y=selected_var, ax=axs[0,0])        
+            session1.plot(x='time',y=selected_var, ax=axs[0,0], color='skyblue')        
             # Añadir etiquetas y título
             axs[0,0].set_xlabel("Tiempo", fontsize=12)
             axs[0,0].set_ylabel(f"{selected_var}", fontsize=12)
             axs[0,0].set_title(f'{selected_var} VS Tiempo - SESION 1', fontsize=16)
 
             # Sesion 2
-            session2.plot(x='time',y=selected_var, ax=axs[0,1])        
+            session2.plot(x='time',y=selected_var, ax=axs[0,1], color='skyblue')        
             # Añadir etiquetas y título
             axs[0,1].set_xlabel("Tiempo", fontsize=12)
             axs[0,1].set_ylabel(f"{selected_var}", fontsize=12)
             axs[0,1].set_title(f'{selected_var} VS Tiempo - SESION 2', fontsize=16)
 
             # Sesion 3
-            session3.plot(x='time',y=selected_var, ax=axs[1,0])        
+            session3.plot(x='time',y=selected_var, ax=axs[1,0], color='skyblue')        
             # Añadir etiquetas y título
             axs[1,0].set_xlabel("Tiempo", fontsize=12)
             axs[1,0].set_ylabel(f"{selected_var}", fontsize=12)
             axs[1,0].set_title(f'{selected_var} VS Tiempo - SESION 3', fontsize=16)
 
             # Sesion 4
-            session4.plot(x='time',y=selected_var, ax=axs[1,1])        
+            session4.plot(x='time',y=selected_var, ax=axs[1,1], color='skyblue')        
             # Añadir etiquetas y título
             axs[1,1].set_xlabel("Tiempo", fontsize=12)
             axs[1,1].set_ylabel(f"{selected_var}", fontsize=12)
@@ -164,21 +164,19 @@ def bar_graph(time_var_max,option):
 
             # Crear la gráfica de barras
             plt.style.use('Solarize_Light2')  
-            # Gráfica de barras
-            colors = plt.get_cmap("Set1").colors  # Usamos la paleta Set2 para colores suaves y equilibrados
 
             # Rotar las etiquetas del eje X
             plt.xticks(rotation=45)
 
             if option == 'TimeMax':
-                bars = plt.bar(time_var_max.index, time_var_max['TimeForMax'], color=colors[:len(time_var_max)])
+                bars = plt.bar(time_var_max.index, time_var_max['TimeForMax'], color='skyblue')
                 # Añadir etiquetas y título
                 plt.xlabel("Sesiones", fontsize=12)
                 plt.ylabel(f"Tiempo para {selected_var} Maxima", fontsize=12)
                 plt.title(f"Tiempo que transcurre en cada Sesion para alcanzar la {selected_var} Maxima - {paciente_seleccionado}", fontsize=20)
 
             elif option == 'DistMax':
-                bars = plt.bar(dists_max.index, dists_max['DistMax'], color=colors[:len(dists_max)])
+                bars = plt.bar(dists_max.index, dists_max['DistMax'], color='skyblue')
                 # Añadir etiquetas y título
                 plt.xlabel("Sesiones", fontsize=12)
                 plt.ylabel("Distancia Maxima", fontsize=12)
@@ -209,28 +207,28 @@ def histogram(session1,session2,session3,session4):
     colors = plt.get_cmap("Set1").colors  # Usamos la paleta Set2 para colores suaves y equilibrados
 
     # Sesion 1
-    axs[0,0].hist(session1['Distancia'], alpha=0.5, edgecolor='black', bins=10)
+    axs[0,0].hist(session1['Distancia'], alpha=0.5, edgecolor='black', bins=10, color='skyblue')
     # Anaidir Etiquetas
     axs[0,0].set_title('Histograma Distancia - Sesion 1', fontsize=16)
     axs[0,0].set_xlabel('Distancia', fontsize=12)
     axs[0,0].set_ylabel('Frecuencia', fontsize=12)
 
     # Sesion 2
-    axs[0,1].hist(session2['Distancia'], alpha=0.5, edgecolor='black', bins=10)
+    axs[0,1].hist(session2['Distancia'], alpha=0.5, edgecolor='black', bins=10, color='skyblue')
     # Anaidir Etiquetas
     axs[0,1].set_title('Histograma Distancia - Sesion 2', fontsize=16)
     axs[0,1].set_xlabel('Distancia', fontsize=12)
     axs[0,1].set_ylabel('Frecuencia', fontsize=12)
 
     # Sesion 3
-    axs[1,0].hist(session3['Distancia'], alpha=0.5, edgecolor='black', bins=10)
+    axs[1,0].hist(session3['Distancia'], alpha=0.5, edgecolor='black', bins=10, color='skyblue')
     # Anaidir Etiquetas
     axs[1,0].set_title('Histograma Distancia - Sesion 3', fontsize=16)
     axs[1,0].set_xlabel('Distancia', fontsize=12)
     axs[1,0].set_ylabel('Frecuencia', fontsize=12)
 
     # Sesion 4
-    axs[1,1].hist(session4['Distancia'], alpha=0.5, edgecolor='black', bins=10)
+    axs[1,1].hist(session4['Distancia'], alpha=0.5, edgecolor='black', bins=10, color='skyblue')
     # Anaidir Etiquetas
     axs[1,1].set_title('Histograma Distancia - Sesion 4', fontsize=16)
     axs[1,1].set_xlabel('Distancia', fontsize=12)
@@ -291,9 +289,7 @@ def emotions_dist(sentiment_columns,session1,session2,session3,session4):
 
     # Crear la gráfica de barras
     plt.style.use('Solarize_Light2')  
-    # Gráfica de barras
-    colors = plt.get_cmap("Set1").colors  # Usamos la paleta Set2 para colores suaves y equilibrados
-
+    
     # Lista de Ejes
     axis = [0,1,2,3]
 
@@ -549,7 +545,7 @@ def scatter_graph(x_var,y_var,session1,session2,session3,session4):
     fig, axs = plt.subplots(nrows=2, ncols=2,figsize=(20, 10))
 
     # Sesion 1
-    axs[0,0].scatter(session1_copy[x_var], session1_copy[y_var], color='lightblue',label='Valores')
+    axs[0,0].scatter(session1_copy[x_var], session1_copy[y_var], color='skyblue',label='Valores')
     axs[0,0].scatter(session1_copy[x_var], session1_copy['predicciones'], label='Predicciones')
     axs[0,0].set_title(f'{y_var} vs {x_var} - Sesión 1',fontsize=16)
     axs[0,0].set_xlabel(f'{x_var}',fontsize=12)
@@ -557,7 +553,7 @@ def scatter_graph(x_var,y_var,session1,session2,session3,session4):
     axs[0,0].legend()
 
     # Sesion 2
-    axs[0,1].scatter(session2_copy[x_var], session2_copy[y_var], color='lightblue', label='Valores')
+    axs[0,1].scatter(session2_copy[x_var], session2_copy[y_var], color='skyblue', label='Valores')
     axs[0,1].scatter(session2_copy[x_var], session2_copy['predicciones'], label='Predicciones')
     axs[0,1].set_title(f'{y_var} vs {x_var} - Sesión 2',fontsize=16)
     axs[0,1].set_xlabel(f'{x_var}',fontsize=12)
@@ -565,7 +561,7 @@ def scatter_graph(x_var,y_var,session1,session2,session3,session4):
     axs[0,1].legend()
 
     # Sesion 3
-    axs[1,0].scatter(session3_copy[x_var], session3_copy[y_var], color='lightblue', label='Valores')
+    axs[1,0].scatter(session3_copy[x_var], session3_copy[y_var], color='skyblue', label='Valores')
     axs[1,0].scatter(session3_copy[x_var], session3_copy['predicciones'], label='Predicciones')
     axs[1,0].set_title(f'{y_var} vs {x_var} -  Sesión 3',fontsize=16)
     axs[1,0].set_xlabel(f'{x_var}',fontsize=12)
@@ -573,7 +569,7 @@ def scatter_graph(x_var,y_var,session1,session2,session3,session4):
     axs[1,0].legend()
 
     # Sesion 4
-    axs[1,1].scatter(session4_copy[x_var], session4_copy[y_var], color='lightblue', label='Valores')
+    axs[1,1].scatter(session4_copy[x_var], session4_copy[y_var], color='skyblue', label='Valores')
     axs[1,1].scatter(session4_copy[x_var], session4_copy['predicciones'], label='Predicciones')
     axs[1,1].set_title(f'{y_var} vs {x_var} - Sesión 4',fontsize=16)
     axs[1,1].set_xlabel(f'{x_var}',fontsize=12)
@@ -1279,6 +1275,8 @@ with tab5:
         if selected_type == ':date: DataFrame':
             st.subheader(f'Correlaciones Lineales - {selected_session}')
             #Mostramos el dataset
+            st.text('')
+            st.text('')
             st.write(corr)
 
         elif selected_type == ':iphone: HeatMap':
