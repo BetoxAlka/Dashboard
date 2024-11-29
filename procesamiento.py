@@ -1,3 +1,4 @@
+# Archivo para procesar los datos de los pacientes
 import os
 import pandas as pd
 import numpy as np

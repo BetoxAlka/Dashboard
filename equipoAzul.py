@@ -1,3 +1,7 @@
+# Si la carpeta 'data' NO existe o esa vacia -> Ejecutar el programa 'procesamiento.py' en terminal
+# Para que funcione, en la carpeta 'archivos' debe haber archivos de los pacientes en csv en el siguiente nivel
+# -> 'archivos' > 'P07' | 'P08' | 'P11' > '12dic02' > 'P07_2018_12dic03_v07_atribMOVPREFAE_etiq.csv'
+# Cambiar nombres de los archivos apropiados en las lineas 609 - 624
 # ------------------------------------------------------------ Importar Librerias ------------------------------------------------------------
 import pandas as pd
 import streamlit as st
